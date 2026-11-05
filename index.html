@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Knihovna Šopíkových</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky toolbar with search + filters, then a shelf-like grid of covers; detail opens as a side sheet (bottom sheet on phones). */
+:root{
+  --bg:#F3F4F1; --surface:#FFFFFF; --fg:#1C2321; --muted:#5E6966; --line:#D9DDD8;
+  --accent:#1F5C55; --accent-soft:#E1ECE9; --shelf:#C9CEC8;
+  --display:"Young Serif",Georgia,"Times New Roman",serif;
+  --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121615; --surface:#1A201E; --fg:#E7EBE8; --muted:#97A39F; --line:#2C3431;
+  --accent:#6FB5A9; --accent-soft:#1E3330; --shelf:#2A322F; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121615; --surface:#1A201E; --fg:#E7EBE8; --muted:#97A39F; --line:#2C3431;
+  --accent:#6FB5A9; --accent-soft:#1E3330; --shelf:#2A322F; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{padding-block:28px 8px;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(28px,5vw,40px);line-height:1.1;margin:0;text-wrap:balance}
+.count{font-family:var(--mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:12px;border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;flex-direction:column;gap:10px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input[type=search],select{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 12px;min-width:0}
+input[type=search]{flex:1 1 240px}
+input:focus-visible,select:focus-visible,button:focus-visible,.book:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;font:inherit;font-size:13px;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:999px;padding:4px 12px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+main{padding-block:24px 48px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:28px 20px}
+@media (max-width:480px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 12px}}
+.book{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-width:0}
+.cover{aspect-ratio:2/3;max-width:100%;width:100%;border-radius:2px 4px 4px 2px;overflow:hidden;position:relative;background:var(--shelf);
+  box-shadow:0 1px 0 var(--line),0 8px 18px -10px rgba(0,0,0,.45);transition:transform .2s ease}
+.book:hover .cover{transform:translateY(-3px)}
+.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;display:block}
+.cover .blur{position:absolute;inset:-12%;background-size:cover;background-position:center;filter:blur(14px) brightness(.8) saturate(1.1)}
+.gen{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:12% 10%;color:#F4F1EC}
+.gen::before{content:"";position:absolute;left:0;top:0;bottom:0;width:7%;background:rgba(0,0,0,.18)}
+.gen b{font-family:var(--display);font-weight:400;font-size:clamp(12px,1.6vw,16px);line-height:1.15;text-wrap:balance;position:relative}
+.gen i{font-style:normal;font-size:11px;letter-spacing:.06em;text-transform:uppercase;opacity:.85;position:relative}
+.meta{min-width:0}
+.meta .t{font-weight:600;font-size:14px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.meta .a{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.flag{position:absolute;top:6px;right:6px;font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:2px 6px;border-radius:3px;background:var(--surface);color:var(--fg)}
+.empty,.note{max-width:62ch;margin:40px auto;text-align:center;color:var(--muted)}
+.empty h2{font-family:var(--display);font-weight:400;color:var(--fg);font-size:24px;margin:0 0 8px}
+.shelfline{height:10px;border-radius:2px;background:var(--shelf);margin:20px auto;max-width:280px;display:flex;gap:3px;padding:0 20px;align-items:flex-end}
+/* detail sheet */
+.scrim{position:fixed;inset:0;background:rgba(10,14,13,.45);z-index:20}
+.sheet{position:fixed;top:0;right:0;bottom:0;width:min(520px,100%);background:var(--surface);z-index:21;overflow-y:auto;
+  padding:calc(20px + env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-right,0px)) calc(32px + env(safe-area-inset-bottom,0px)) 24px;
+  display:flex;flex-direction:column;gap:18px;box-shadow:-20px 0 40px -20px rgba(0,0,0,.4)}
+@media (max-width:600px){.sheet{top:auto;max-height:88vh;border-radius:14px 14px 0 0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}}
+.sheet .close{align-self:flex-end;font:inherit;font-size:14px;background:none;border:0;color:var(--muted);cursor:pointer;padding:4px 0}
+.head{display:grid;grid-template-columns:110px 1fr;gap:18px;align-items:start}
+.head .cover{width:110px}
+.head h2{font-family:var(--display);font-weight:400;font-size:24px;line-height:1.15;margin:0 0 4px;text-wrap:balance}
+.head .by{color:var(--muted)}
+.anno{margin:0;max-width:62ch}
+dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 16px;margin:0;font-size:14px}
+dt{color:var(--muted);font-size:12px;letter-spacing:.05em;text-transform:uppercase;padding-top:2px}
+dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.mono{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12px;background:var(--accent-soft);color:var(--accent);border-radius:4px;padding:2px 8px}
+.edit-ro{border-top:1px solid var(--line);padding-top:16px}
+.edit{border-top:1px solid var(--line);padding-top:16px;display:grid;gap:12px}
+.edit label{display:grid;gap:4px;font-size:12px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
+.edit input[type=text]{font:inherit;text-transform:none;letter-spacing:0;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+.stars{display:flex;gap:2px}
+.stars button{font-size:22px;background:none;border:0;cursor:pointer;color:var(--line);padding:0 2px;line-height:1}
+.stars button.on{color:var(--accent)}
+.saved{font-size:13px;color:var(--accent);min-height:1.4em}
+a{color:var(--accent)}
+@media (prefers-reduced-motion:reduce){.cover{transition:none}}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <h1>Knihovna Šopíkových</h1>
+  <span class="count" id="count">načítám…</span>
+</header>
+
+<div class="bar">
+  <div class="wrap">
+    <div class="row">
+      <input type="search" id="q" placeholder="Hledat název, autora, ISBN, štítek" aria-label="Hledat">
+      <select id="status" aria-label="Stav čtení">
+        <option value="">Všechny stavy</option>
+        <option value="precteno">Přečteno</option>
+        <option value="rozecteno">Rozečteno</option>
+        <option value="neprecteno">Nepřečteno</option>
+        <option value="pujceno">Půjčeno</option>
+      </select>
+      <select id="sort" aria-label="Řazení">
+        <option value="author">Podle autora</option>
+        <option value="title">Podle názvu</option>
+        <option value="year">Podle roku vydání</option>
+        <option value="added">Naposledy přidané</option>
+      </select>
+    </div>
+    <div class="chips" id="genres" role="group" aria-label="Žánr"></div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div id="grid" class="grid"></div>
+  <div id="empty" class="empty" hidden>
+    <div class="shelfline" aria-hidden="true"></div>
+    <h2>Polička je zatím prázdná</h2>
+    <p>Knihy se sem teprve přidávají.</p>
+  </div>
+  <p id="nores" class="note" hidden>Tomuhle hledání nic neodpovídá.</p>
+  <p id="err" class="note" hidden></p>
+</main>
+
+<div id="scrim" class="scrim" hidden></div>
+<aside id="sheet" class="sheet" hidden aria-modal="true" role="dialog" aria-labelledby="d-title"></aside>
+
+<script>
+const CLOTH=["#2E4A62","#6B2E2E","#2F5D50","#5A4A2F","#3F3A5C","#7A5530","#284B48","#4E2F45","#3C4E2B","#55606A"];
+const STATUS={precteno:"Přečteno",rozecteno:"Rozečteno",neprecteno:"Nepřečteno"};
+let books=[], loaded=false, genre="", db=null, canWrite=true, openId=null;
+const $=s=>document.querySelector(s);
+const norm=s=>(s||"").toString().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+const hash=s=>{let h=0;for(const c of s||"")h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)};
+const esc=s=>(s??"").toString().replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function coverHTML(b){
+  const gen=`<div class="gen" style="background:${CLOTH[hash(b.title)%CLOTH.length]}"><b>${esc(b.title)}</b><i>${esc(b.author||"")}</i></div>`;
+  if(!b.cover) return gen;
+  return gen+`<div class="blur" style="background-image:url('${esc(b.cover)}')"></div><img src="${esc(b.cover)}" alt="" loading="lazy" onerror="this.previousElementSibling.remove();this.remove()">`;
+}
+
+function filtered(){
+  const q=norm($("#q").value).trim(), st=$("#status").value;
+  let out=books.filter(b=>{
+    if(genre && b.genre!==genre) return false;
+    if(st==="pujceno"){ if(!b.lentTo) return false; }
+    else if(st && (b.status||"neprecteno")!==st) return false;
+    if(!q) return true;
+    return norm([b.title,b.subtitle,b.author,b.isbn,b.publisher,(b.tags||[]).join(" "),b.genre].join(" ")).includes(q);
+  });
+  const s=$("#sort").value;
+  const cmp={
+    author:(a,b)=>norm(a.authorSort||a.author).localeCompare(norm(b.authorSort||b.author),"cs")||norm(a.title).localeCompare(norm(b.title),"cs"),
+    title:(a,b)=>norm(a.title).localeCompare(norm(b.title),"cs"),
+    year:(a,b)=>(b.year||0)-(a.year||0),
+    added:(a,b)=>(b.addedAt||"").localeCompare(a.addedAt||"")
+  }[s];
+  return out.sort(cmp);
+}
+
+function render(){
+  const list=filtered();
+  const authors=new Set(books.map(b=>b.author).filter(Boolean)).size;
+  $("#count").textContent=books.length? `${books.length} ${books.length===1?"kniha":books.length<5?"knihy":"knih"} · ${authors} autorů`:"0 knih";
+  if(!loaded){$("#count").textContent="načítám…"}
+  $("#empty").hidden=!loaded||books.length>0;
+  $("#nores").hidden=!(books.length && !list.length);
+  $("#grid").innerHTML=list.map(b=>`
+    <button class="book" data-id="${esc(b.id)}" aria-label="${esc(b.title)}, ${esc(b.author||"")}">
+      <div class="cover">${coverHTML(b)}${b.lentTo?'<span class="flag">půjčeno</span>':""}</div>
+      <div class="meta"><div class="t">${esc(b.title)}</div><div class="a">${esc(b.author||"")}</div></div>
+    </button>`).join("");
+  const gs=[...new Set(books.map(b=>b.genre).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"cs"));
+  $("#genres").hidden=!gs.length;
+  $("#genres").innerHTML=[`<button class="chip" data-g="" aria-pressed="${!genre}">Vše</button>`]
+    .concat(gs.map(g=>`<button class="chip" data-g="${esc(g)}" aria-pressed="${genre===g}">${esc(g)}</button>`)).join("");
+  if(openId) renderSheet();
+}
+
+function renderSheet(){
+  const b=books.find(x=>x.id===openId); if(!b){closeSheet();return}
+  const rows=[["Rok",b.year],["Nakladatel",b.publisher],["Jazyk",b.language],["Stran",b.pages],["Žánr",b.genre],["ISBN",b.isbn&&`<span class="mono">${esc(b.isbn)}</span>`,true]]
+    .filter(r=>r[1]).map(([k,v,raw])=>`<dt>${k}</dt><dd>${raw?v:esc(v)}</dd>`).join("");
+  const st=b.status||"neprecteno";
+  $("#sheet").innerHTML=`
+    <button class="close" id="x">Zavřít</button>
+    <div class="head"><div class="cover">${coverHTML(b)}</div>
+      <div><h2 id="d-title">${esc(b.title)}</h2>${b.subtitle?`<div>${esc(b.subtitle)}</div>`:""}<div class="by">${esc(b.author||"")}</div></div></div>
+    ${b.annotation?`<p class="anno">${esc(b.annotation)}</p>`:""}
+    ${rows?`<dl>${rows}</dl>`:""}
+    ${(b.tags||[]).length?`<div class="tags">${b.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>`:""}
+    ${b.link?`<a href="${esc(b.link)}" target="_blank" rel="noopener">Stránka knihy</a>`:""}
+    <dl class="edit-ro"><dt>Stav</dt><dd>${STATUS[st]||""}${b.lentTo?" · půjčeno":""}</dd>${b.rating?`<dt>Hodnocení</dt><dd>${"★".repeat(b.rating)}${"☆".repeat(5-b.rating)}</dd>`:""}</dl>`;
+  $("#x").onclick=closeSheet;
+}
+
+function openSheet(id){openId=id;$("#scrim").hidden=false;$("#sheet").hidden=false;renderSheet();$("#x")?.focus()}
+function closeSheet(){const id=openId;openId=null;$("#scrim").hidden=true;$("#sheet").hidden=true;document.querySelector(`.book[data-id="${CSS.escape(id||"")}"]`)?.focus()}
+
+$("#grid").onclick=e=>{const b=e.target.closest(".book");if(b)openSheet(b.dataset.id)};
+$("#genres").onclick=e=>{const c=e.target.closest(".chip");if(!c)return;genre=c.dataset.g;render()};
+$("#scrim").onclick=closeSheet;
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&openId)closeSheet()});
+["q","status","sort"].forEach(id=>$("#"+id).addEventListener("input",render));
+try{const s=localStorage.getItem("knihovna-sort");if(s)$("#sort").value=s}catch(e){}
+$("#sort").addEventListener("change",()=>{try{localStorage.setItem("knihovna-sort",$("#sort").value)}catch(e){}});
+
+(async()=>{
+  try{const r=await fetch("books.json",{cache:"no-cache"});books=await r.json();loaded=true;render()}
+  catch(e){$("#count").textContent="";$("#err").hidden=false;$("#err").textContent="Knihovnu se nepodařilo načíst."}
+})();
+render();
+</script>
+
+</body>
+</html>

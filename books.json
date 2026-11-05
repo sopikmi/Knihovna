@@ -1,0 +1,87 @@
+[
+ {
+  "addedAt": "2026-11-05T16:25:03+01:00",
+  "annotation": "Encyklopedie s více než tisícem hesel o legionářských jednotkách od samostatné setniny výše: o jejich dislokaci, velitelích a cestě domů. Fidler klade důraz na boje o sibiřskou magistrálu v létě a na podzim 1918, které podle něj zůstávají ve stínu oficiálně připomínaných událostí. Knihu doplňují stovky dobových fotografií a dvě desítky map.",
+  "author": "Jiří Fidler",
+  "authorSort": "Fidler Jiří",
+  "cover": "covers/9788028409722.jpg",
+  "genre": "Historie",
+  "isbn": "978-80-284-0972-2",
+  "language": "čeština",
+  "pages": 376,
+  "publisher": "Universum (Euromedia Group)",
+  "status": "neprecteno",
+  "tags": [
+   "legie",
+   "první světová válka",
+   "Rusko",
+   "encyklopedie"
+  ],
+  "title": "Encyklopedie československých legií",
+  "year": 2025,
+  "id": "9788028409722"
+ },
+ {
+  "addedAt": "2026-11-05T16:25:01+01:00",
+  "annotation": "Český překlad vlivné a dodnes diskutované knihy dvou předních amerických politologů z roku 2007. Autoři tvrdí, že síť proizraelských organizací výrazně ovlivňuje americkou politiku na Blízkém východě, a to podle nich v rozporu s národními zájmy USA. Kniha vyvolala ostrou debatu a řada kritiků její teze odmítá.",
+  "author": "John J. Mearsheimer, Stephen M. Walt",
+  "authorSort": "Mearsheimer John J.",
+  "genre": "Politologie",
+  "isbn": "978-80-87525-31-9",
+  "language": "čeština (přel. Zdeněk Bervid)",
+  "publisher": "Bodyart Press",
+  "status": "neprecteno",
+  "tags": [
+   "USA",
+   "Izrael",
+   "zahraniční politika",
+   "mezinárodní vztahy"
+  ],
+  "title": "Izraelská lobby a americká zahraniční politika",
+  "year": 2014,
+  "id": "9788087525319",
+  "cover": ""
+ },
+ {
+  "addedAt": "2026-11-05T16:25:00+01:00",
+  "annotation": "Rozbor léta 1914 a lidí, kteří Evropu dovedli do války, kterou většina z nich považovala za nemyslitelnou: od Conrada von Hötzendorfa po německé generály Schlieffena a Moltkeho a politiky evropských metropolí. Autor se ptá, kdo nese za katastrofu odpovědnost, a zvažuje i alternativní scénáře, jak se válce dalo vyhnout.",
+  "author": "Ondřej Houska",
+  "authorSort": "Houska Ondřej",
+  "cover": "covers/9788090970045.jpg",
+  "genre": "Historie",
+  "isbn": "978-80-909700-4-5",
+  "language": "čeština",
+  "link": "https://shelfie.cz/knihy/899-strujci-apokalypsy-ondrej-houska",
+  "pages": 224,
+  "publisher": "Shelfie Publishers",
+  "status": "neprecteno",
+  "subtitle": "Kdo může za nejdůležitější válku dějin?",
+  "tags": [
+   "první světová válka",
+   "1914",
+   "červencová krize"
+  ],
+  "title": "Strůjci apokalypsy",
+  "year": 2026,
+  "id": "9788090970045"
+ },
+ {
+  "addedAt": "2026-11-05T16:25:02+01:00",
+  "annotation": "Praha očima více než stovky jejích obyvatel, od revizora a kurýra přes natěrače zábradlí a meteorologa až po zvoníka. Výpovědi jsou psané v první osobě a ukazují, že každý prožívá město jinak. Název odkazuje na pražskou přezdívku pro obklad stanic metra. Knihu doplňují koláže Michaely Karásek Čejkové a fotografie Zuzany Veselé.",
+  "author": "Ondřej Pokorný",
+  "authorSort": "Pokorný Ondřej",
+  "genre": "Reportáž",
+  "language": "čeština",
+  "link": "https://www.knihaopraze.cz/",
+  "publisher": "vlastním nákladem",
+  "status": "neprecteno",
+  "tags": [
+   "Praha",
+   "rozhovory",
+   "město"
+  ],
+  "title": "Antiprsa, zábradlí, trdelníky a to všechno okolo",
+  "id": "pokorny-antiprsa",
+  "cover": ""
+ }
+]
