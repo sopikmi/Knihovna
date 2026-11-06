@@ -203,8 +203,9 @@
   "annotation": "Historický akční román vyprávěný očima štábního kapitána Václava Morávka, nejznámějšího ze skupiny Tři králové. Autor, bývalý policejní důstojník, opírá děj o archivní prameny a sleduje Morávkův boj s gestapem až do jeho smrti v roce 1942. Doslov napsal historik Jaroslav Čvančara.",
   "link": "https://www.kosmas.cz/knihy/539902/moravkova-zpoved-verim-v-boha-a-ve-sve-pistole/",
   "cover": "covers/9788024296838.jpg",
-  "status": "neprecteno",
-  "addedAt": "2026-11-06T19:30:00+01:00"
+  "status": "precteno",
+  "addedAt": "2026-11-06T19:30:00+01:00",
+  "rating": 5
  },
  {
   "id": "9788028403546",
