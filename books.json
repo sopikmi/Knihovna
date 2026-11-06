@@ -54,7 +54,7 @@
   "link": "https://shelfie.cz/knihy/899-strujci-apokalypsy-ondrej-houska",
   "pages": 224,
   "publisher": "Shelfie Publishers",
-  "status": "neprecteno",
+  "status": "rozecteno",
   "subtitle": "Kdo může za nejdůležitější válku dějin?",
   "tags": [
    "první světová válka",
@@ -63,7 +63,8 @@
   ],
   "title": "Strůjci apokalypsy",
   "year": 2026,
-  "id": "9788090970045"
+  "id": "9788090970045",
+  "rating": 5
  },
  {
   "addedAt": "2026-11-05T16:25:02+01:00",
