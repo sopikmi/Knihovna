@@ -932,10 +932,11 @@
    "edice dokumentů"
   ],
   "annotation": "Nejrozsáhlejší edice dokumentů o zásahu 1. ruské divize generála Buňačenka do Pražského povstání v květnu 1945. Obsahuje původní hlášení velitelství „Bartoš“ a dalších povstaleckých velitelství, která zachycují postup vlasovců i dramatickou situaci v obleženém městě.",
-  "status": "neprecteno",
+  "status": "rozecteno",
   "addedAt": "2026-11-06T19:55:02+01:00",
   "cover": "covers/9788020026743.jpg",
-  "language": "čeština"
+  "language": "čeština",
+  "rating": 5
  },
  {
   "id": "9788020031815",
