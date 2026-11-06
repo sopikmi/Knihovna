@@ -421,8 +421,9 @@
   ],
   "annotation": "Příběh chlapce zamilovaného do letadel, odehrávající se ve světě prvorepublikového letectví. Kniha sleduje dospívání hlavního hrdiny i zhoršující se situaci před Mnichovem a po něm. Autor, vlastním jménem Richard Husmann, sám za války létal u RAF.",
   "cover": "covers/jansky-hrusnova-alej.jpg",
-  "status": "neprecteno",
-  "addedAt": "2026-11-06T19:40:04+01:00"
+  "status": "rozecteno",
+  "addedAt": "2026-11-06T19:40:04+01:00",
+  "rating": 5
  },
  {
   "id": "jansky-pevnost-v-pousti",
