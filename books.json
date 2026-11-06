@@ -665,10 +665,11 @@
    "politika"
   ],
   "annotation": "První díl investigativní série novináře Jaroslava Kmenty o podnikání a politické kariéře Andreje Babiše. Autor mapuje vztahy, kauzy a lidi kolem Agrofertu i hnutí ANO a opírá se o dokumenty a vlastní fotodokumentaci.",
-  "status": "neprecteno",
+  "status": "precteno",
   "addedAt": "2026-11-06T19:45:06+01:00",
   "cover": "covers/9788087569436.jpg",
-  "language": "čeština"
+  "language": "čeština",
+  "rating": 4
  },
  {
   "id": "9788087569474",
