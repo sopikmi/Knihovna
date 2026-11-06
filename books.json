@@ -441,8 +441,9 @@
   ],
   "annotation": "Dobrodružný válečný příběh mladého Čecha, který koncem 30. let slouží ve francouzské cizinecké legii v severní Africe. Líčí život v pouštní pevnosti a v Alžírsku, vedro, žízeň, tvrdý dril i kruté tresty. Autor čerpal z vlastních zážitků.",
   "cover": "covers/jansky-pevnost-v-pousti.jpg",
-  "status": "neprecteno",
-  "addedAt": "2026-11-06T19:40:05+01:00"
+  "status": "precteno",
+  "addedAt": "2026-11-06T19:40:05+01:00",
+  "rating": 5
  },
  {
   "id": "jansky-zkouska-duvery",
