@@ -151,9 +151,10 @@
   ],
   "annotation": "Další román s harvardským symbologem Robertem Langdonem se tentokrát odehrává v Praze. Langdon sem přijíždí s vědkyní Katherine Solomonovou, jejíž chystaná kniha o lidském vědomí může otřást zavedenými představami. Když Katherine i rukopis zmizí, začíná honička pražskými památkami a legendami.",
   "link": "https://www.kosmas.cz/knihy/550619/tajemstvi-vsech-tajemstvi/",
-  "status": "neprecteno",
+  "status": "precteno",
   "addedAt": "2026-11-06T18:40:00+01:00",
-  "cover": "covers/9788025747674.jpg"
+  "cover": "covers/9788025747674.jpg",
+  "rating": 5
  },
  {
   "id": "9788072770250",
