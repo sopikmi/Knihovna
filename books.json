@@ -510,8 +510,9 @@
   ],
   "annotation": "Vzpomínky velitele 310. československé stíhací peruti na bitvu o Anglii, poprvé vydané už v roce 1943 v New Yorku. Hess po roce 1948 znovu emigroval a zemřel v roce 1981 v USA.",
   "cover": "covers/9788020605870.jpg",
-  "status": "neprecteno",
-  "addedAt": "2026-11-06T19:40:08+01:00"
+  "status": "precteno",
+  "addedAt": "2026-11-06T19:40:08+01:00",
+  "rating": 5
  },
  {
   "id": "9788074329906",
