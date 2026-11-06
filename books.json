@@ -297,8 +297,9 @@
   "annotation": "Rozbor operačního plánu z října 1964, podle kterého měla ČSLA v počátku války s NATO postupovat na západ až k Rýnu. Kniha vysvětluje sovětskou vojenskou strategii 60. let, poměr sil na středoevropském válčišti a přípravu Československého frontu včetně strategických her. Sleduje i to, jak se plán změnil po srpnu 1968.",
   "link": "https://www.kosmas.cz/knihy/135460/ceskoslovenska-lidova-armada-na-rynu/",
   "cover": "covers/9788020608321.jpg",
-  "status": "neprecteno",
-  "addedAt": "2026-11-06T19:30:04+01:00"
+  "status": "rozecteno",
+  "addedAt": "2026-11-06T19:30:04+01:00",
+  "rating": 4
  },
  {
   "id": "9788020450449",
