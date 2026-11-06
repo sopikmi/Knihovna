@@ -252,8 +252,9 @@
   "annotation": "Autorova třetí kniha o protektorátu. Vedle Balabána, Mašína a Morávka se věnuje méně známým odbojářům i lidem na druhé straně, konfidentům a kolaborantům, a také postavám, jejichž role byla nejednoznačná. Vychází z velkého množství dobových dokumentů, které jsou v knize i otištěné.",
   "link": "https://www.databazeknih.cz/knihy/skpt-vaclav-moravek-a-lide-kolem-nej-odbojari-a-hrdinove-gestapo-a-kolaboranti-a-ti-nekde-uprostred-600663",
   "cover": "covers/9788011079987.jpg",
-  "status": "neprecteno",
-  "addedAt": "2026-11-06T19:30:02+01:00"
+  "status": "precteno",
+  "addedAt": "2026-11-06T19:30:02+01:00",
+  "rating": 5
  },
  {
   "id": "9788086015521",
