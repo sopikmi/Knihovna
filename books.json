@@ -688,10 +688,11 @@
    "politika"
   ],
   "annotation": "Druhý díl Kmentovy investigativní série o Andreji Babišovi navazuje na první svazek dalšími kauzami a postavami z okolí Agrofertu a hnutí ANO. Obsahuje také autorovu fotodokumentaci.",
-  "status": "neprecteno",
+  "status": "precteno",
   "addedAt": "2026-11-06T19:45:07+01:00",
   "cover": "covers/9788087569474.jpg",
-  "language": "čeština"
+  "language": "čeština",
+  "rating": 4
  },
  {
   "id": "9788087569498",
