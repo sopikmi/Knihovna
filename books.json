@@ -578,10 +578,11 @@
    "1918–1939"
   ],
   "annotation": "Fotografické dějiny československé armády za první republiky od vojenského historika Karla Straky. Sleduje dvacet let branné moci od složitých začátků přes modernizaci až po krizové měsíce 1938–1939. Navazuje na tituly Mobilizace ve fotografii a Finanční stráž ve fotografii.",
-  "status": "neprecteno",
+  "status": "precteno",
   "addedAt": "2026-11-06T19:45:02+01:00",
   "cover": "covers/9788075255471.jpg",
-  "language": "čeština"
+  "language": "čeština",
+  "rating": 5
  },
  {
   "id": "9788075254979",
