@@ -363,8 +363,9 @@
   ],
   "annotation": "Paměti bombardovacího pilota 311. československé peruti RAF, vydané krátce po válce. Korda létal na Wellingtonech, za útok na křižník Prinz Eugen v Brestu dostal DFC a později jako velitel letky lovil nad Atlantikem německé ponorky. Rozšířené vydání vyšlo v roce 1992 pod názvem Pilotem R.A.F.",
   "cover": "covers/korda-nad-zememi-a-mori.jpg",
-  "status": "neprecteno",
-  "addedAt": "2026-11-06T19:40:01+01:00"
+  "status": "rozecteno",
+  "addedAt": "2026-11-06T19:40:01+01:00",
+  "rating": 4
  },
  {
   "id": "9788070220686",
