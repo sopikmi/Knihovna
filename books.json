@@ -807,10 +807,11 @@
    "povídky"
   ],
   "annotation": "Humorné příhody a vyprávění ze Slovácka psané v nářečí, které Zdeněk Galuška proslavil i rozhlasovým a gramofonovým přednesem. Kniha zachycuje svéráz, vtip i mluvu slováckých vesnic.",
-  "status": "neprecteno",
+  "status": "precteno",
   "addedAt": "2026-11-06T19:50:04+01:00",
   "language": "čeština",
-  "cover": "covers/9788075800213.jpg"
+  "cover": "covers/9788075800213.jpg",
+  "rating": 5
  },
  {
   "id": "9788026426356",
