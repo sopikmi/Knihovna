@@ -711,10 +711,11 @@
    "série Polosvět"
   ],
   "annotation": "První díl Kmentovy série Polosvět o organizovaném zločinu. Mapuje působení ruskojazyčných zločineckých skupin v Česku od 90. let, jejich vazby na podnikání, politiku a tajné služby a známé kauzy, které je provázely.",
-  "status": "neprecteno",
+  "status": "precteno",
   "addedAt": "2026-11-06T19:45:08+01:00",
   "cover": "covers/9788087569498.jpg",
-  "language": "čeština"
+  "language": "čeština",
+  "rating": 5
  },
  {
   "id": "9788026408932",
