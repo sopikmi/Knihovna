@@ -343,8 +343,9 @@
   ],
   "annotation": "Vzpomínky armádního generála Emila Bočka, československého stíhacího pilota RAF, zpracované z rozhovorů historikem Jiřím Plachým, který se specializuje na československé letce v Británii. Sleduje jeho cestu do Anglie, výcvik i bojové lety. Boček je nositelem Řádu Bílého lva.",
   "cover": "covers/9788075652751.jpg",
-  "status": "neprecteno",
-  "addedAt": "2026-11-06T19:40:00+01:00"
+  "status": "precteno",
+  "addedAt": "2026-11-06T19:40:00+01:00",
+  "rating": 4
  },
  {
   "id": "korda-nad-zememi-a-mori",
