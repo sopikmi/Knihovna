@@ -131,5 +131,50 @@
   "status": "neprecteno",
   "addedAt": "2026-11-06T18:30:01+01:00",
   "cover": "covers/9788077100489.jpg"
+ },
+ {
+  "id": "9788025747674",
+  "title": "Tajemství všech tajemství",
+  "author": "Dan Brown",
+  "authorSort": "Brown Dan",
+  "year": 2025,
+  "publisher": "Argo",
+  "language": "čeština (přel. Michala Marková a David Petrů)",
+  "pages": 640,
+  "isbn": "978-80-257-4767-4",
+  "genre": "Beletrie",
+  "tags": [
+   "thriller",
+   "Robert Langdon",
+   "Praha"
+  ],
+  "annotation": "Další román s harvardským symbologem Robertem Langdonem se tentokrát odehrává v Praze. Langdon sem přijíždí s vědkyní Katherine Solomonovou, jejíž chystaná kniha o lidském vědomí může otřást zavedenými představami. Když Katherine i rukopis zmizí, začíná honička pražskými památkami a legendami.",
+  "link": "https://www.kosmas.cz/knihy/550619/tajemstvi-vsech-tajemstvi/",
+  "status": "neprecteno",
+  "addedAt": "2026-11-06T18:40:00+01:00",
+  "cover": "covers/9788025747674.jpg"
+ },
+ {
+  "id": "9788072770250",
+  "title": "Evropa v proměnách staletí",
+  "author": "František Honzák, Marek Pečenka, František Stellner, Jitka Vlčková",
+  "authorSort": "Honzák František",
+  "year": 2001,
+  "publisher": "Libri",
+  "language": "čeština (3. aktualizované vydání)",
+  "pages": 766,
+  "isbn": "80-7277-025-X",
+  "genre": "Historie",
+  "tags": [
+   "Evropa",
+   "historická geografie",
+   "encyklopedie",
+   "státy"
+  ],
+  "annotation": "Abecední encyklopedie států, zemí a historických území Evropy od starověku po současnost, od Aargau a Achajského spolku až po moderní státy. U každého hesla shrnuje, jak území vzniklo, komu patřilo a jak se měnily jeho hranice. Hodí se jako příručka, když člověk potřebuje rychle se zorientovat v proměnách evropské mapy.",
+  "link": "https://www.kosmas.cz/knihy/101408/evropa-v-promenach-staleti/",
+  "status": "neprecteno",
+  "addedAt": "2026-11-06T18:40:01+01:00",
+  "cover": "covers/9788072770250.jpg"
  }
 ]
