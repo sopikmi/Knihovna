@@ -214,7 +214,7 @@ try{const s=localStorage.getItem("knihovna-sort");if(s)$("#sort").value=s}catch(
 $("#sort").addEventListener("change",()=>{try{localStorage.setItem("knihovna-sort",$("#sort").value)}catch(e){}});
 
 (async()=>{
-  try{const r=await fetch("books.json",{cache:"no-cache"});books=await r.json();loaded=true;render()}
+  try{const r=await fetch("books.json?v="+Date.now(),{cache:"no-store"});books=await r.json();loaded=true;render()}
   catch(e){$("#count").textContent="";$("#err").hidden=false;$("#err").textContent="Knihovnu se nepodařilo načíst."}
 })();
 render();
