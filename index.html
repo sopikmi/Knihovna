@@ -63,8 +63,10 @@ main{padding-block:24px 48px}
 .sheet{position:fixed;top:0;right:0;bottom:0;width:min(520px,100%);background:var(--surface);z-index:21;overflow-y:auto;
   padding:calc(20px + env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-right,0px)) calc(32px + env(safe-area-inset-bottom,0px)) 24px;
   display:flex;flex-direction:column;gap:18px;box-shadow:-20px 0 40px -20px rgba(0,0,0,.4)}
-@media (max-width:600px){.sheet{top:auto;max-height:88vh;border-radius:14px 14px 0 0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}}
-.sheet .close{align-self:flex-end;font:inherit;font-size:14px;background:none;border:0;color:var(--muted);cursor:pointer;padding:4px 0}
+@media (max-width:600px){.sheet{top:auto;max-height:88vh;max-height:88dvh;border-radius:14px 14px 0 0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}}
+.sheet{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.sheet .close{position:sticky;top:calc(-20px - env(safe-area-inset-top,0px));z-index:3;align-self:stretch;text-align:right;font:inherit;font-size:15px;font-weight:600;background:var(--surface);border:0;border-bottom:1px solid var(--line);color:var(--fg);cursor:pointer;padding:12px 0;margin-top:-8px}
+html.lock,html.lock body{overflow:hidden;overscroll-behavior:none}
 .head{display:grid;grid-template-columns:110px 1fr;gap:18px;align-items:start}
 .head .cover{width:110px}
 .head h2{font-family:var(--display);font-weight:400;font-size:24px;line-height:1.15;margin:0 0 4px;text-wrap:balance}
@@ -84,6 +86,13 @@ dd{margin:0;min-width:0;overflow-wrap:anywhere}
 .stars button{font-size:22px;background:none;border:0;cursor:pointer;color:var(--line);padding:0 2px;line-height:1}
 .stars button.on{color:var(--accent)}
 .saved{font-size:13px;color:var(--accent);min-height:1.4em}
+.top-r{display:flex;align-items:baseline;gap:16px}
+.linkbtn{font:inherit;font-size:13px;background:none;border:0;padding:0;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.login{display:grid;gap:8px;max-width:62ch;padding-block:4px 16px}
+.login .row input{flex:1 1 240px;font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 12px;min-width:0}
+.login button.primary{font:inherit;background:var(--accent);color:var(--bg);border:0;border-radius:8px;padding:9px 16px;cursor:pointer}
+.login p{margin:0;font-size:13px;color:var(--muted)}
+.login .msg{color:var(--fg)}
 a{color:var(--accent)}
 @media (prefers-reduced-motion:reduce){.cover{transition:none}}
 </style>
@@ -93,8 +102,13 @@ a{color:var(--accent)}
 
 <header class="wrap top">
   <h1>Knihovna Chopin</h1>
-  <span class="count" id="count">načítám…</span>
+  <div class="top-r"><span class="count" id="count">načítám…</span><button class="linkbtn" id="editbtn">Upravit</button></div>
 </header>
+<div class="wrap login" id="login" hidden>
+  <div class="row"><input type="password" id="tok" placeholder="GitHub token" autocomplete="off" aria-label="GitHub token"><button class="primary" id="tokgo">Přihlásit</button></div>
+  <p>Úpravy stavu čtení, hodnocení a půjčení se ukládají přímo do repozitáře Knihovna. Token zůstane uložený jen v tomhle prohlížeči.</p>
+  <p class="msg" id="tokmsg" aria-live="polite"></p>
+</div>
 
 <div class="bar">
   <div class="wrap">
@@ -136,6 +150,9 @@ a{color:var(--accent)}
 const CLOTH=["#2E4A62","#6B2E2E","#2F5D50","#5A4A2F","#3F3A5C","#7A5530","#284B48","#4E2F45","#3C4E2B","#55606A"];
 const STATUS={precteno:"Přečteno",rozecteno:"Rozečteno",neprecteno:"Nepřečteno"};
 let books=[], loaded=false, genre="", db=null, canWrite=true, openId=null;
+const REPO="https://api.github.com/repos/sopikmi/Knihovna/contents/books.json";
+let token=null, sha=null, dirty={}, saveTimer=null, saving=false, saveMsg="";
+try{token=localStorage.getItem("knihovna-gh-token")}catch(e){}
 const $=s=>document.querySelector(s);
 const norm=s=>(s||"").toString().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
 const hash=s=>{let h=0;for(const c of s||"")h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)};
@@ -191,29 +208,94 @@ function renderSheet(){
     .filter(r=>r[1]).map(([k,v,raw])=>`<dt>${k}</dt><dd>${raw?v:esc(v)}</dd>`).join("");
   const st=b.status||"neprecteno";
   $("#sheet").innerHTML=`
-    <button class="close" id="x">Zavřít</button>
+    <button class="close" id="x">✕ Zavřít</button>
     <div class="head"><div class="cover">${coverHTML(b)}</div>
       <div><h2 id="d-title">${esc(b.title)}</h2>${b.subtitle?`<div>${esc(b.subtitle)}</div>`:""}<div class="by">${esc(b.author||"")}</div></div></div>
     ${b.annotation?`<p class="anno">${esc(b.annotation)}</p>`:""}
     ${rows?`<dl>${rows}</dl>`:""}
     ${(b.tags||[]).length?`<div class="tags">${b.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>`:""}
     ${b.link?`<a href="${esc(b.link)}" target="_blank" rel="noopener">Stránka knihy</a>`:""}
-    <dl class="edit-ro"><dt>Stav</dt><dd>${STATUS[st]||""}${b.lentTo?" · půjčeno":""}</dd>${b.rating?`<dt>Hodnocení</dt><dd>${"★".repeat(b.rating)}${"☆".repeat(5-b.rating)}</dd>`:""}</dl>`;
-  $("#x").onclick=closeSheet;
+    ${token?`<div class="edit">
+      <label>Stav čtení<select id="e-status">${Object.entries(STATUS).map(([k,v])=>`<option value="${k}" ${k===st?"selected":""}>${v}</option>`).join("")}</select></label>
+      <label>Hodnocení<div class="stars" id="e-stars">${[1,2,3,4,5].map(n=>`<button data-r="${n}" class="${(b.rating||0)>=n?"on":""}" aria-label="${n} z 5">★</button>`).join("")}</div></label>
+      <label>Půjčeno komu<input type="text" id="e-lent" value="${esc(b.lentTo||"")}" placeholder="nikomu"></label>
+      <div class="saved" id="saved" aria-live="polite">${esc(saveMsg)}</div>
+    </div>`:`<dl class="edit-ro"><dt>Stav</dt><dd>${STATUS[st]||""}${b.lentTo?" · půjčeno":""}</dd>${b.rating?`<dt>Hodnocení</dt><dd>${"★".repeat(b.rating)}${"☆".repeat(5-b.rating)}</dd>`:""}</dl>`}`;
+  $("#x").onclick=()=>closeSheet();
+  if(token){
+    $("#e-status").onchange=e=>edit(b.id,{status:e.target.value});
+    $("#e-stars").onclick=e=>{const r=+e.target.dataset.r;if(r)edit(b.id,{rating:(b.rating===r?0:r)})};
+    $("#e-lent").onchange=e=>edit(b.id,{lentTo:e.target.value.trim()});
+  }
 }
 
-function openSheet(id){openId=id;$("#scrim").hidden=false;$("#sheet").hidden=false;renderSheet();$("#x")?.focus()}
-function closeSheet(){const id=openId;openId=null;$("#scrim").hidden=true;$("#sheet").hidden=true;document.querySelector(`.book[data-id="${CSS.escape(id||"")}"]`)?.focus()}
+function openSheet(id){if(!openId){try{history.pushState({sheet:1},"")}catch(e){}}document.documentElement.classList.add("lock");openId=id;$("#scrim").hidden=false;$("#sheet").hidden=false;renderSheet();$("#x")?.focus()}
+function closeSheet(fromPop){if(!fromPop&&openId&&history.state&&history.state.sheet){history.back();return}document.documentElement.classList.remove("lock");const id=openId;openId=null;$("#scrim").hidden=true;$("#sheet").hidden=true;document.querySelector(`.book[data-id="${CSS.escape(id||"")}"]`)?.focus()}
 
 $("#grid").onclick=e=>{const b=e.target.closest(".book");if(b)openSheet(b.dataset.id)};
 $("#genres").onclick=e=>{const c=e.target.closest(".chip");if(!c)return;genre=c.dataset.g;render()};
-$("#scrim").onclick=closeSheet;
+$("#scrim").onclick=()=>closeSheet();
+window.addEventListener("popstate",()=>{if(openId)closeSheet(true)});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&openId)closeSheet()});
 ["q","status","sort"].forEach(id=>$("#"+id).addEventListener("input",render));
 try{const s=localStorage.getItem("knihovna-sort");if(s)$("#sort").value=s}catch(e){}
 $("#sort").addEventListener("change",()=>{try{localStorage.setItem("knihovna-sort",$("#sort").value)}catch(e){}});
 
+const b64dec=s=>new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\s/g,"")),c=>c.charCodeAt(0)));
+const b64enc=s=>{const u=new TextEncoder().encode(s);let o="";for(let i=0;i<u.length;i+=0x8000)o+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(o)};
+const gh=(opt={})=>fetch(REPO+(opt.method?"":"?ref=main&t="+Date.now()),{...opt,cache:"no-store",headers:{"Authorization":"Bearer "+token,"Accept":"application/vnd.github+json",...(opt.headers||{})}});
+
+async function loadFromGitHub(){
+  const r=await gh(); if(r.status===401||r.status===403||r.status===404) throw Object.assign(new Error("auth"),{auth:true});
+  if(!r.ok) throw new Error("net");
+  const j=await r.json(); sha=j.sha; return JSON.parse(b64dec(j.content));
+}
+function setMsg(m){saveMsg=m;const el=$("#saved");if(el)el.textContent=m}
+function edit(id,patch){
+  const b=books.find(x=>x.id===id); if(!b) return;
+  Object.assign(b,patch); dirty[id]={...(dirty[id]||{}),...patch};
+  setMsg("Ukládám…"); render();
+  clearTimeout(saveTimer); saveTimer=setTimeout(flush,2500);
+}
+async function flush(){
+  if(saving){clearTimeout(saveTimer);saveTimer=setTimeout(flush,1500);return}
+  const batch=dirty; dirty={}; if(!Object.keys(batch).length) return;
+  saving=true;
+  const titles=Object.keys(batch).map(id=>books.find(x=>x.id===id)?.title).filter(Boolean).join(", ");
+  const put=()=>gh({method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:"Stav/hodnocení: "+titles,content:b64enc(JSON.stringify(books,null,1)+"\n"),sha,branch:"main"})});
+  try{
+    let r=await put();
+    if(r.status===409||r.status===422){ // někdo mezitím změnil soubor: načíst čerstvou verzi a znovu použít změny
+      const fresh=await loadFromGitHub();
+      for(const [id,p] of Object.entries(batch)){const x=fresh.find(y=>y.id===id); if(x) Object.assign(x,p)}
+      books=fresh; r=await put();
+    }
+    if(!r.ok) throw new Error(r.status);
+    sha=(await r.json()).content.sha; setMsg("Uloženo");
+  }catch(e){ dirty={...batch,...dirty}; setMsg(e.auth||e.message==="401"?"Token už neplatí – přihlas se znovu.":"Uložení se nepovedlo, zkusím to znovu."); if(!e.auth) {clearTimeout(saveTimer);saveTimer=setTimeout(flush,8000)} }
+  finally{ saving=false; render() }
+}
+window.addEventListener("beforeunload",e=>{if(Object.keys(dirty).length||saving){e.preventDefault();e.returnValue=""}});
+
+function setEditUI(){ $("#editbtn").textContent=token?"Odhlásit":"Upravit"; }
+$("#editbtn").onclick=()=>{
+  if(token){ token=null; try{localStorage.removeItem("knihovna-gh-token")}catch(e){} setEditUI(); render(); return }
+  $("#login").hidden=!$("#login").hidden; if(!$("#login").hidden) $("#tok").focus();
+};
+async function tryLogin(){
+  const t=$("#tok").value.trim(); if(!t) return;
+  $("#tokmsg").textContent="Ověřuji…"; token=t;
+  try{ books=await loadFromGitHub(); loaded=true;
+    try{localStorage.setItem("knihovna-gh-token",t)}catch(e){}
+    $("#tok").value=""; $("#login").hidden=true; $("#tokmsg").textContent=""; setEditUI(); render();
+  }catch(e){ token=null; $("#tokmsg").textContent=e.auth?"Token nefunguje. Zkontroluj, že má přístup k repozitáři Knihovna s právem zápisu obsahu.":"Nepodařilo se spojit s GitHubem, zkus to znovu." }
+}
+$("#tokgo").onclick=tryLogin;
+$("#tok").addEventListener("keydown",e=>{if(e.key==="Enter")tryLogin()});
+
 (async()=>{
+  setEditUI();
+  if(token){ try{ books=await loadFromGitHub(); loaded=true; render(); return }catch(e){ if(e.auth){token=null;try{localStorage.removeItem("knihovna-gh-token")}catch(_){} setEditUI()} } }
   try{const r=await fetch("books.json?v="+Date.now(),{cache:"no-store"});books=await r.json();loaded=true;render()}
   catch(e){$("#count").textContent="";$("#err").hidden=false;$("#err").textContent="Knihovnu se nepodařilo načíst."}
 })();
