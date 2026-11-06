@@ -1,4 +1,4 @@
-# Knihovna Šopíkových
+# Knihovna Chopin
 
 Katalog domácí knihovny – obálky, krátké anotace, hledání a filtry podle žánru a stavu čtení.
 
