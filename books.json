@@ -482,8 +482,9 @@
   ],
   "annotation": "Nejznámější kniha Filipa Jánského o osádce bombardéru Wellington u 311. československé peruti RAF. Vychází z autorových zážitků palubního střelce a podle ní natočil Jindřich Polák v roce 1968 stejnojmenný film.",
   "cover": "covers/jansky-nebesti-jezdci-1965.jpg",
-  "status": "neprecteno",
-  "addedAt": "2026-11-06T19:40:07+01:00"
+  "status": "precteno",
+  "addedAt": "2026-11-06T19:40:07+01:00",
+  "rating": 5
  },
  {
   "id": "9788020605870",
