@@ -228,8 +228,9 @@
   "annotation": "Literatura faktu navazující na román Morávkova zpověď. Bývalý policejní podplukovník přistupuje k příběhu jako k vyšetřování: rekonstruuje útěk Morávka a Peltána po drátu v ulici Pod Terebkou, přestřelku v Karlovce i osud jejich zbraní a ostatků. Spolupracoval se soudními lékaři i s historiky Jaroslavem Čvančarou a Jiřím Košařem a kniha obsahuje kolem 600 fotografií.",
   "link": "https://www.kosmas.cz/knihy/553397/akta-moravek/",
   "cover": "covers/9788028403546.jpg",
-  "status": "neprecteno",
-  "addedAt": "2026-11-06T19:30:01+01:00"
+  "status": "precteno",
+  "addedAt": "2026-11-06T19:30:01+01:00",
+  "rating": 5
  },
  {
   "id": "9788011079987",
