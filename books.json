@@ -758,10 +758,11 @@
    "identita"
   ],
   "annotation": "Literární historik Martin C. Putna se ptá, zda existuje něco jako Střední Evropa, jaká území k ní patří a jaké hodnoty ji určují. V sérii esejistických obrazů prochází kulturní dějiny regionu a hledá místo českých zemí mezi Západem a Východem.",
-  "status": "neprecteno",
+  "status": "rozecteno",
   "addedAt": "2026-11-06T19:50:01+01:00",
   "language": "čeština",
-  "cover": "covers/9788074299773.jpg"
+  "cover": "covers/9788074299773.jpg",
+  "rating": 4
  },
  {
   "id": "9788088630173",
