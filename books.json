@@ -128,9 +128,10 @@
   ],
   "annotation": "Reportážní portrét Maďarska za Viktora Orbána. Autor jezdí do země přes deset let a mluví maďarsky. Popisuje, jak Orbán ovládl média a přestavěl politický systém i ekonomickou elitu a jak jeho moc začala slábnout. Kniha končí volebním vítězstvím Pétera Magyara, jehož kampaň autor sledoval zblízka.",
   "link": "https://www.kosmas.cz/knihy/574969/vilagos-vzestup-a-pad-viktora-orbana/",
-  "status": "neprecteno",
+  "status": "precteno",
   "addedAt": "2026-11-06T18:30:01+01:00",
-  "cover": "covers/9788077100489.jpg"
+  "cover": "covers/9788077100489.jpg",
+  "rating": 5
  },
  {
   "id": "9788025747674",
